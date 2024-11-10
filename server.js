@@ -1,24 +1,28 @@
-// server.js
+// Import required modules
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
+
+// Initialize the Express application
 const app = express();
-const PORT = 3000;
+const PORT = 3000;  // Set the port for the server
 
 // Middleware to parse JSON data from the client-side
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Serve static files (CSS, client-side JS)
-app.use(express.static('public'));
+// Serve static files (HTML, CSS, JavaScript) from the "public" folder
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Handle form submission from contact page
+// Route to handle form submission
 app.post('/submit-form', (req, res) => {
+    // Destructure form data from the request body
     const { name, email, message } = req.body;
 
-    // Log form data to the console (for development purposes)
+    // Debug: Log the received form data to the console
     console.log('Form Submission:', { name, email, message });
 
-    // Send a success response to the client
+    // Send a success response back to the client
     res.status(200).json({ message: 'Form submitted successfully!' });
 });
 
